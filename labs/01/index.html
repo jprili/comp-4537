@@ -7,8 +7,18 @@
 </head>
 <body>
     <div id="main">
-        <input type="text" placeholder="between 3 - 7"/>
-        <button>Go!</button>
+        <div id="input">
+            <input 
+                id="button-count" 
+                type="number" 
+                placeholder="between 3 - 7 inclusive"
+            />
+            <button id="go">Go!</button>
+            <span id="error-display"></span>
+        </div>
+        <div id="game-area">
+        </div>
     </div> 
+    <script src="js/script.js" type="module"></script>
 </body>
 </html>
