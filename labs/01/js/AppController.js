@@ -1,5 +1,5 @@
-import AppModel from "./AppModel";
-import AppView from "./AppView";
+import AppModel from "./AppModel.js";
+import AppView from "./AppView.js";
 
 class AppController {
 
@@ -14,12 +14,19 @@ class AppController {
     }
 
     onClickGo = () => {
-        const value = this.view.root.getElementById("button-count").value();
-        this.model.createButtons()
+        const value = this.view.root.getElementById("button-count").value;
+        const err = this.model.createButtons(value);
+        if (err !== null) {
+            console.log(err);
+            return;
+        } 
+
+        this.model.randomisePositions(this.view.getWindowDimensionsEm());
+        this.view.displayButtons(this.model.buttons);
     }
 
     setup = () => {
-
+        this.view.root.getElementById("go").onclick = this.onClickGo;
     }
 }
 

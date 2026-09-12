@@ -1,6 +1,9 @@
-import Vec2 from "./utils/Vec2";
+import Vec2 from "./utils/Vec2.js";
 
 class ButtonModel {
+    static WIDTH = 10; // em
+    static HEIGHT = 5; // em
+
     /**
      * 
      * @param {string} label 
@@ -13,6 +16,10 @@ class ButtonModel {
        this.position = position;
     }
 
+    /**
+     * Set the button's position.
+     * @param {Vec2 | null} position 
+     */
     setPosition = (position) => {
         this.position = position
     }
