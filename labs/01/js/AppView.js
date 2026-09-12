@@ -53,15 +53,20 @@ class AppView {
     }
 
     /**
-     * Display the error in the UI
-     * @param {string} err 
+     * Display the message in the UI
+     * @param {string} msg
      */
-    displayError = (err) => {
+    displayMessage = (msg) => {
         const errDisplay = this.root.getElementById("error-display");
-        errDisplay.textContent = err;
+        errDisplay.textContent = msg;
         setTimeout(() => {
             errDisplay.textContent = "";
         }, 2000)
+    }
+
+    clearGameArea = () => {
+        this.gButtonViews = []
+        this.root.getElementById("game-area").replaceChildren();
     }
 }
 

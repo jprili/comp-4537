@@ -21,6 +21,9 @@ class AppModel {
          */
         this.config = config;
 
+        /**
+         * @type {GameState}
+         */
         this.gameState = new GameState();
     }
 
@@ -33,13 +36,13 @@ class AppModel {
     /**
      * Creates several buttons based on the count input.
      * @param {number} count - count of buttons to create
-     * @returns {[string | null]} an error message if not null
+     * @returns {boolean} if an error occured
      */
     createButtons = (count) => {
         this.buttons.length = 0; // clear buttons
 
         if (count < 3 || count > 7) {
-            return `invalid count argument: ${count}`;
+            return true;
         }
 
         const colors = Utils.shuffled([...this.config.gameButtonColors]);
@@ -52,8 +55,7 @@ class AppModel {
                 this.config.gameButtonHeightEm
             );
         } 
-
-        return null
+        return false;
     }
 
     /**
@@ -73,6 +75,23 @@ class AppModel {
 
             button.setPosition(newPosition);
         });
+    }
+
+    /**
+     * Update the game state depending on `buttonId` clicked. 
+     * 
+     * @param {string} gButtonId - the id of the button clicked
+     * @returns {[boolean, boolean]} if the game is finished, 
+     *                               and if the game is won
+     */
+    update = (gButtonId) => {
+        const gButtonClicked = parseInt(gButtonId.slice(-1));
+        this.gameState.click(gButtonClicked, this.buttons.length);
+        return [this.gameState.isCompleted, this.gameState.isSuccess];
+    }
+
+    resetGame = () => {
+        this.gameState.reset();
     }
 }
 

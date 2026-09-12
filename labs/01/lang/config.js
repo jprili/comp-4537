@@ -11,6 +11,7 @@ const CONFIG = {
     ],
     "gameButtonHeightEm": 5, 
     "gameButtonWidthEm": 10, 
+    "appLang": "en",
 }
 
 export default CONFIG;

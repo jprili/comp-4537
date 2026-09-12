@@ -12,6 +12,7 @@ class AppController {
     constructor(view, model) {
         this.view = view;
         this.model = model; 
+        this.msgs  = null;
     }
 
     /**
@@ -21,8 +22,10 @@ class AppController {
     startGame = async () => {
         const value = this.view.root.getElementById("button-count").value;
         const err = this.model.createButtons(value);
-        if (err !== null) {
-            this.view.displayError(err);
+        const goButton = this.view.root.getElementById("go");
+        if (err) {
+            this.view.displayMessage(this.msgs.invalidInput);
+            goButton.disabled = false;
         } else {
             const buttonModels = this.model.getButtons();
             this.view.displayButtons(buttonModels);
@@ -57,13 +60,36 @@ class AppController {
         await this.startGame();
     }
 
+    handleCompletion = async (isSuccess) => {
+        const goButton = this.view.root.getElementById("go");
+        if (!isSuccess) {
+            // show rest for like two seconds
+            this.view.forEachButtonView(b => { 
+                const labelSpan = b.getElementsByClassName("label")[0];
+                labelSpan.hidden = false;
+                b.disabled = true;
+            });
+            await Utils.sleep(2000);
+        }
+        this.view.clearGameArea();
+        this.model.resetGame();
+        goButton.disabled = false;
+    }
+
     /**
      * Updates the state of the game and view when clicked.
      * @param {HTMLElement} gameButton
      */
-    onClickGameButton = (gameButton) => {
+    onClickGameButton = async (gameButton) => {
         const labelSpan = gameButton.getElementsByClassName("label")[0];
         labelSpan.toggleAttribute("hidden");
+        const [isCompleted, isSuccess] = this.model.update(gameButton.id);
+        if (isCompleted) {
+            this.view.displayMessage( 
+                isSuccess ? this.msgs.gameSuccess : this.msgs.gameFail
+            );
+            this.handleCompletion(isSuccess);
+        }
     }
 
     setup = () => {
