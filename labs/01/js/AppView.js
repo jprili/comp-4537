@@ -33,7 +33,7 @@ class AppView {
     buttonToHTML = (button) => {
         const buttonElement = document.createElement("button");
         let style = 
-            `width: ${ButtonModel.WIDTH}em; height: ${ButtonModel.HEIGHT}em;`;
+            `width: ${button.widthEm}em; height: ${button.heightEm}em;`;
 
         if (button.color !== null) {
             style = style.concat(`background-color: ${button.color}; `);
