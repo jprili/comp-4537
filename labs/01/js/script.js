@@ -1,13 +1,13 @@
-import AppController from "./AppController";
-import AppModel from "./AppModel";
-import AppView from "./AppView";
+import AppController from "./AppController.js";
+import AppModel from "./AppModel.js";
+import AppView from "./AppView.js";
 
 const main = () => { 
     const model = new AppModel();
-    const view = new AppView();
+    const view = new AppView(document);
     const controller = new AppController(view, model);
 
-    console.debug("No problems?");
+    controller.setup();
 }
 
 main();
