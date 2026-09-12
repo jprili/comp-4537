@@ -1,12 +1,20 @@
-import ButtonModel from "./ButtonModel.js";
+import GameButtonModel from "./GameButtonModel.js";
 
 class AppView {
     /**
      * Constructs the User Interface.
-     * @param {HTMLDocument} root 
+     * @param {HTMLDocument} root
      */
     constructor(root) {
+        /**
+         * @type {HTMLDocument}
+         */
         this.root = root;
+
+        /**
+         * @type {HTMLElement[]}
+         */
+        this.gButtonViews = [];
     }
 
     /**
@@ -25,16 +33,22 @@ class AppView {
         return [toEm(window.innerWidth), toEm(window.innerHeight)];
     }
 
+    forEachButtonView = (fn) => {
+        this.gButtonViews.forEach(fn);
+    }
 
     /**
      * Display the buttons in the model 
-     * @param {ButtonModel[]} buttons 
+     * @param {GameButtonModel[]} buttons 
      */
     displayButtons = (buttons) => {
         const gameArea = this.root.getElementById("game-area");
-        gameArea.replaceChildren(); // clear children
+        gameArea.replaceChildren();   // clear children
+        this.gButtonViews = []; // clear buttonElements
         buttons.forEach((button) => {
-            gameArea.appendChild(this.buttonToHTML(button));
+            const buttonView = button.toHTML();
+            gameArea.appendChild(buttonView);
+            this.gButtonViews.push(buttonView);
         });
     }
 

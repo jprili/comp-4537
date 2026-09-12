@@ -1,6 +1,6 @@
 import Vec2 from "./utils/Vec2.js";
 
-class ButtonModel {
+class GameButtonModel {
     /**
      * Construct a basic model for a button 
      * @constructor
@@ -36,30 +36,34 @@ class ButtonModel {
 
     /**
      * Converts the ButtonModel into a displayable HTML
-     * @param {ButtonModel} button 
+     * @param {GameButtonModel} button 
      * @returns {HTMLButtonElement} the button element
      */
-    buttonToHTML = (button) => {
+    toHTML = () => {
         const buttonElement = document.createElement("button");
-        let style = 
-            `width: ${button.widthEm}em; height: ${button.heightEm}em;`;
+        const labelSpan = document.createElement("span");
+        labelSpan.className = "label";
+        labelSpan.textContent = this.label;
 
-        if (button.color !== null) {
-            style = style.concat(`background-color: ${button.color}; `);
+        let style = 
+            `width: ${this.widthEm}em; height: ${this.heightEm}em;`;
+
+        if (this.color !== null) {
+            style = style.concat(`background-color: ${this.color}; `);
         }
-        if (button.position !== null) {
+        if (this.position !== null) {
             style = style.concat(
                 "position: absolute; ",
-                `left: ${button.position.x}em;`,
-                `top: ${button.position.y}em; `
+                `left: ${this.position.x}em;`,
+                `top: ${this.position.y}em; `
             );
         }
         buttonElement.style = style;
-        buttonElement.textContent = button.label;
+        buttonElement.appendChild(labelSpan);
         buttonElement.className = "game-button";
-        buttonElement.id = `game-button-${button.label}`;
+        buttonElement.id = `game-button-${this.label}`;
         return buttonElement;
     }
 }
 
-export default ButtonModel;
+export default GameButtonModel;

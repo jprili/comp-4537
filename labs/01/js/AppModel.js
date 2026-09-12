@@ -1,6 +1,8 @@
-import ButtonModel from "./ButtonModel.js";
+import GameButtonModel from "./GameButtonModel.js";
 import Vec2 from "./utils/Vec2.js";
 import CONFIG from "../lang/config.js";
+import Utils from "./utils/Utils.js";
+import GameState from "./GameState.js";
 
 class AppModel {
     /**
@@ -10,7 +12,7 @@ class AppModel {
      */
     constructor(config) {
         /**
-         * @type {ButtonModel[]}
+         * @type {GameButtonModel[]}
          */
         this.buttons = [];
 
@@ -18,7 +20,15 @@ class AppModel {
          * @type {typeof CONFIG} the configuration file
          */
         this.config = config;
+
+        this.gameState = new GameState();
     }
+
+    /**
+     * Obtain a shallow copy of the buttons in the app. 
+     * @returns {GameButtonModel[]} the button array 
+     */
+    getButtons = () => [...this.buttons];
 
     /**
      * Creates several buttons based on the count input.
@@ -32,10 +42,9 @@ class AppModel {
             return `invalid count argument: ${count}`;
         }
 
-        const colors = [...this.config.gameButtonColors];
+        const colors = Utils.shuffled([...this.config.gameButtonColors]);
         for (let i = 0; i < count; i++) {
-            // TODO: randomise colour
-            this.buttons[i] = new ButtonModel(
+            this.buttons[i] = new GameButtonModel(
                 i + 1, 
                 colors[i], 
                 null, 
@@ -50,9 +59,9 @@ class AppModel {
     /**
      * Scramble the positions of the buttons.
      * 
-     * @param {[number, number]} window dimensions in em
+     * @param {[number, number]} dimension - window dimensions in em
      */
-    randomisePositions = (dimensions) => {
+    randomizePositions = (dimensions) => {
         this.buttons.forEach((button) => {
             const [ windowWidthEm, windowHeightEm ] = dimensions;
             // Note the offsets (+x is to the right, +y is down)
