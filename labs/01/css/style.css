@@ -1,0 +1,16 @@
+* {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.game-button {
+    margin: 10px;
+}
+
+#input {
+    margin: 10px;
+}
+
+.game-button:disabled {
+    color: #000;
+    pointer-events: none;
+}

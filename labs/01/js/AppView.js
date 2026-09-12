@@ -1,12 +1,20 @@
-import ButtonModel from "./ButtonModel.js";
+import GameButtonModel from "./GameButtonModel.js";
 
 class AppView {
     /**
      * Constructs the User Interface.
-     * @param {HTMLDocument} root 
+     * @param {HTMLDocument} root
      */
     constructor(root) {
+        /**
+         * @type {HTMLDocument}
+         */
         this.root = root;
+
+        /**
+         * @type {HTMLElement[]}
+         */
+        this.gButtonViews = [];
     }
 
     /**
@@ -25,43 +33,40 @@ class AppView {
         return [toEm(window.innerWidth), toEm(window.innerHeight)];
     }
 
-    /**
-     * Converts the ButtonModel into a displayable HTML
-     * @param {ButtonModel} button 
-     * @returns {HTMLButtonElement} the button element
-     */
-    buttonToHTML = (button) => {
-        const buttonElement = document.createElement("button");
-        let style = 
-            `width: ${ButtonModel.WIDTH}em; height: ${ButtonModel.HEIGHT}em;`;
-
-        if (button.color !== null) {
-            style = style.concat(`background-color: ${button.color}; `);
-        }
-        if (button.position !== null) {
-            style = style.concat(
-                "position: absolute; ",
-                `left: ${button.position.x}em;`,
-                `top: ${button.position.y}em; `
-            );
-        }
-        buttonElement.style = style;
-        buttonElement.textContent = button.label;
-        buttonElement.className = "game-button";
-        buttonElement.id = `game-button-${button.label}`;
-        return buttonElement;
+    forEachButtonView = (fn) => {
+        this.gButtonViews.forEach(fn);
     }
 
     /**
      * Display the buttons in the model 
-     * @param {ButtonModel[]} buttons 
+     * @param {GameButtonModel[]} buttons 
      */
     displayButtons = (buttons) => {
         const gameArea = this.root.getElementById("game-area");
-        gameArea.replaceChildren(); // clear children
+        gameArea.replaceChildren();   // clear children
+        this.gButtonViews = []; // clear buttonElements
         buttons.forEach((button) => {
-            gameArea.appendChild(this.buttonToHTML(button));
+            const buttonView = button.toHTML();
+            gameArea.appendChild(buttonView);
+            this.gButtonViews.push(buttonView);
         });
+    }
+
+    /**
+     * Display the message in the UI
+     * @param {string} msg
+     */
+    displayMessage = (msg) => {
+        const errDisplay = this.root.getElementById("error-display");
+        errDisplay.textContent = msg;
+        setTimeout(() => {
+            errDisplay.textContent = "";
+        }, 2000)
+    }
+
+    clearGameArea = () => {
+        this.gButtonViews = []
+        this.root.getElementById("game-area").replaceChildren();
     }
 }
 
