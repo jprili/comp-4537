@@ -33,6 +33,10 @@ class AppView {
         return [toEm(window.innerWidth), toEm(window.innerHeight)];
     }
 
+    /**
+     * Apply a side-effect for each button in the view.
+     * @param {(e: HTMLElement) => void} fn - function to apply 
+     */
     forEachButtonView = (fn) => {
         this.gButtonViews.forEach(fn);
     }
@@ -64,6 +68,9 @@ class AppView {
         }, 2000)
     }
 
+    /**
+     * Remove the displayed buttons in the game area.
+     */
     clearGameArea = () => {
         this.gButtonViews = []
         this.root.getElementById("game-area").replaceChildren();

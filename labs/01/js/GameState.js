@@ -1,5 +1,15 @@
 class GameState {
+    /**
+     * Singleton instance of the GameState
+     * @type { GameState | null }
+     */
     static instance = null;
+
+    /**
+     * Obtain the instance of a GameState
+     * 
+     * @returns { GameState } the instance
+     */
     static getInstance = () => {
         if (instance === null) {
             GameState.reset();

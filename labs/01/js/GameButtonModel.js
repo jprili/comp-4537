@@ -35,7 +35,8 @@ class GameButtonModel {
     }
 
     /**
-     * Converts the ButtonModel into a displayable HTML
+     * Converts the ButtonModel into a displayable HTML.
+     * 
      * @param {GameButtonModel} button 
      * @returns {HTMLButtonElement} the button element
      */
