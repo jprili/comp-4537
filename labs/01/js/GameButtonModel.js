@@ -5,9 +5,7 @@ const SPAN_ENAME = "span";
 const LABEL_CNAME = "label";
 const GAME_BTN_CNAME = "game-button"
 
-const BTN_SIZE_CSS = template`width: ${0}em; height: ${1}em; `;
-const BGCOLOR_CSS  = template`background-color: ${0}; `;
-const POS_CSS = template`position: absolute; left: ${0}em; top: ${1}em;`;
+
 
 class GameButtonModel {
     /**
@@ -54,18 +52,22 @@ class GameButtonModel {
         const labelSpan = document.createElement(SPAN_ENAME);
         labelSpan.className = LABEL_CNAME;
         labelSpan.textContent = this.label;
-        let style = BTN_SIZE_CSS(this.widthEm, this.heightEm);
+        let style = `width: ${this.widthEm}em; height: ${this.heightEm}em; `;
 
         if (this.color !== null) {
-            style = style.concat(BGCOLOR_CSS(this.color));
+            style = style.concat(`background-color: ${this.color}; `);
         }
         if (this.position !== null) {
-            style = style.concat(POS_CSS(this.position.x, this.position.y));
+            style = style.concat(
+                `position: absolute;
+                 left: ${this.position.x}em;
+                 top: ${this.position.y}em;`
+            );
         }
         buttonElement.style = style;
         buttonElement.appendChild(labelSpan);
         buttonElement.className = GAME_BTN_CNAME;
-        buttonElement.id = GAME_BTN_CNAME.concat("-", this.label);
+        buttonElement.id = GAME_BTN_CNAME.concat();
         return buttonElement;
     }
 }
