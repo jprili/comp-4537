@@ -2,6 +2,12 @@ import AppModel from "./AppModel.js";
 import AppView from "./AppView.js";
 import Utils from "./utils/Utils.js";
 
+const LABEL_CNAME = "label";
+
+const GO_BTN_ID = "go";
+const INPUT_FIELD_ID = "button-count";
+const HIDDEN_ATTR = "hidden";
+
 class AppController {
 
     /**
@@ -41,7 +47,7 @@ class AppController {
         // connect callbacks
         const gButtonViews = this.view.gButtonViews;
         for (const gButton of gButtonViews) {
-            const label = gButton.getElementsByClassName("label")[0];
+            const label = gButton.getElementsByClassName(LABEL_CNAME)[0];
             label.hidden = true;
             gButton.onclick = () => this.onClickGameButton(gButton);
             gButton.disabled = false;
@@ -54,9 +60,9 @@ class AppController {
      */
     startGame = async () => {
         const root = this.view.getRoot();
-        const value = root.getElementById("button-count").value;
+        const value = root.getElementById(INPUT_FIELD_ID).value;
         const err = this.model.createButtons(value);
-        const goButton = root.getElementById("go");
+        const goButton = root.getElementById(GO_BTN_ID);
         this.model.resetGame();
         if (err) {
             this.view.displayMessage(this.msgs.invalidInput);
@@ -77,11 +83,11 @@ class AppController {
 
     handleCompletion = async (isSuccess) => {
         const root = this.view.getRoot();
-        const goButton = root.getElementById("go");
+        const goButton = root.getElementById(GO_BTN_ID);
         if (!isSuccess) {
             // show rest for like two seconds
             this.view.forEachButtonView(b => { 
-                const labelSpan = b.getElementsByClassName("label")[0];
+                const labelSpan = b.getElementsByClassName(LABEL_CNAME)[0];
                 labelSpan.hidden = false;
                 b.disabled = true;
             });
@@ -97,8 +103,8 @@ class AppController {
      * @param {HTMLElement} gameButton
      */
     onClickGameButton = async (gameButton) => {
-        const labelSpan = gameButton.getElementsByClassName("label")[0];
-        labelSpan.toggleAttribute("hidden");
+        const labelSpan = gameButton.getElementsByClassName(LABEL_CNAME)[0];
+        labelSpan.toggleAttribute(HIDDEN_ATTR);
         const [isCompleted, isSuccess] = this.model.update(gameButton.id);
         if (isCompleted) {
             this.view.displayMessage( 
@@ -109,7 +115,7 @@ class AppController {
     }
 
     setup = () => {
-        const goButton = this.view.getRoot().getElementById("go");
+        const goButton = this.view.getRoot().getElementById(GO_BTN_ID);
         goButton.onclick = () => this.onClickGo(goButton);
     }
 }
