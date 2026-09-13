@@ -115,8 +115,13 @@ class AppController {
     }
 
     setup = () => {
-        const goButton = this.view.getRoot().getElementById(GO_BTN_ID);
+        const root = this.view.getRoot();
+        const goButton = root.getElementById(GO_BTN_ID);
+        goButton.textContent = this.msgs.goButtonContent;
         goButton.onclick = () => this.onClickGo(goButton);
+        root.getElementById(INPUT_FIELD_ID).placeholder = 
+            this.msgs.inputFieldPlaceholder;
+
     }
 }
 
