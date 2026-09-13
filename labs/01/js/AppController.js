@@ -15,39 +15,54 @@ class AppController {
         this.msgs  = null;
     }
 
+    setupGameButtons = async () => {
+        const buttonModels = this.model.getButtons();
+
+        // disable the displayed buttons
+        this.view.displayButtons(buttonModels);
+        this.view.forEachButtonView(b => { b.disabled = true; })
+
+        await Utils.sleep(buttonModels.length * 1000);
+
+        // scramble
+        for (let i = 0; i < 3; ++i) {
+            this.model
+                .randomizePositions(this.view.getWindowDimensionsEm());
+
+            // small issue here is that it clears the area every time
+            this.view.displayButtons(buttonModels);
+            this.view.forEachButtonView(b => { b.disabled = true; })
+
+            if (i != 2) {
+                await Utils.sleep(2000);
+            }
+        } 
+
+        // connect callbacks
+        const gButtonViews = this.view.gButtonViews;
+        for (const gButton of gButtonViews) {
+            const label = gButton.getElementsByClassName("label")[0];
+            label.hidden = true;
+            gButton.onclick = () => this.onClickGameButton(gButton);
+            gButton.disabled = false;
+        }
+    }
+
     /**
      * Start the memory game.
      * May need refactoring.
      */
     startGame = async () => {
-        const value = this.view.root.getElementById("button-count").value;
+        const root = this.view.getRoot();
+        const value = root.getElementById("button-count").value;
         const err = this.model.createButtons(value);
-        const goButton = this.view.root.getElementById("go");
+        const goButton = root.getElementById("go");
+        this.model.resetGame();
         if (err) {
             this.view.displayMessage(this.msgs.invalidInput);
             goButton.disabled = false;
         } else {
-            const buttonModels = this.model.getButtons();
-            this.view.displayButtons(buttonModels);
-            this.view.forEachButtonView(b => { b.disabled = true; })
-
-            await Utils.sleep(buttonModels.length * 1000);
-            for (let i = 0; i < 3; ++i) {
-                this.model
-                    .randomizePositions(this.view.getWindowDimensionsEm());
-                this.view.displayButtons(buttonModels);
-                this.view.forEachButtonView(b => { b.disabled = true; })
-                if (i != 2) {
-                    await Utils.sleep(2000);
-                }
-            } 
-            const gButtonViews = this.view.gButtonViews;
-            for (const gButton of gButtonViews) {
-                const label = gButton.getElementsByClassName("label")[0];
-                label.hidden = true;
-                gButton.onclick = () => this.onClickGameButton(gButton);
-                gButton.disabled = false;
-            }
+            this.setupGameButtons();
         }
     }
 
@@ -61,7 +76,8 @@ class AppController {
     }
 
     handleCompletion = async (isSuccess) => {
-        const goButton = this.view.root.getElementById("go");
+        const root = this.view.getRoot();
+        const goButton = root.getElementById("go");
         if (!isSuccess) {
             // show rest for like two seconds
             this.view.forEachButtonView(b => { 
@@ -93,7 +109,7 @@ class AppController {
     }
 
     setup = () => {
-        const goButton = this.view.root.getElementById("go");
+        const goButton = this.view.getRoot().getElementById("go");
         goButton.onclick = () => this.onClickGo(goButton);
     }
 }

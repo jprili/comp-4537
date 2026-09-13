@@ -1,8 +1,18 @@
 class GameState {
+    /**
+     * Singleton instance of the GameState
+     * @type { GameState | null }
+     */
     static instance = null;
+
+    /**
+     * Obtain the instance of a GameState
+     * 
+     * @returns { GameState } the instance
+     */
     static getInstance = () => {
-        if (instance === null) {
-            GameState.reset();
+        if (GameState.instance === null) {
+            GameState.instance = new GameState(); 
         }
         return GameState.instance;
     }
@@ -17,13 +27,10 @@ class GameState {
      * Reset the instance of the GameState.
      */
     reset = () => {
-        if (GameState.instance !== null) {
-            this.isCompleted = false;
-            this.isSuccess = false; 
-            this.nextButtonId = 1;
-        } else {
-            GameState.instance = new GameState();
-        }
+        const instance = GameState.instance;
+        instance.isCompleted = false;
+        instance.isSuccess = false; 
+        instance.nextButtonId = 1;
     }
 
     /**
@@ -33,16 +40,17 @@ class GameState {
      * @param {number} length    - the max button size
      */
     click = (clickedId, length) => {
-        if (clickedId === this.nextButtonId) {
+        const instance = GameState.instance;
+        if (clickedId === instance.nextButtonId) {
             if (clickedId === length) {
-                this.isCompleted = true;
-                this.isSuccess   = true;
+                instance.isCompleted = true;
+                instance.isSuccess   = true;
                 return;
             }
-            ++this.nextButtonId;
+            ++instance.nextButtonId;
         } else {
-            this.isCompleted = true;
-            this.isSuccess = false;
+            instance.isCompleted = true;
+            instance.isSuccess = false;
         }
     }
 }

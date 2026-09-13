@@ -24,7 +24,7 @@ class AppModel {
         /**
          * @type {GameState}
          */
-        this.gameState = new GameState();
+        this.gameState = GameState.getInstance();
     }
 
     /**

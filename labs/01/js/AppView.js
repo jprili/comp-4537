@@ -18,6 +18,15 @@ class AppView {
     }
 
     /**
+     * Obtains the root object of the DOM. 
+     * 
+     * @returns {HTMLDocument} the root of the document
+     */
+    getRoot = () => {
+        return this.root;
+    }
+
+    /**
      * Get the window dimensions in em.
      * @returns {[number, number]} width and height of window in em
      */
@@ -33,6 +42,10 @@ class AppView {
         return [toEm(window.innerWidth), toEm(window.innerHeight)];
     }
 
+    /**
+     * Apply a side-effect for each button in the view.
+     * @param {(e: HTMLElement) => void} fn - function to apply 
+     */
     forEachButtonView = (fn) => {
         this.gButtonViews.forEach(fn);
     }
@@ -64,6 +77,9 @@ class AppView {
         }, 2000)
     }
 
+    /**
+     * Remove the displayed buttons in the game area.
+     */
     clearGameArea = () => {
         this.gButtonViews = []
         this.root.getElementById("game-area").replaceChildren();
