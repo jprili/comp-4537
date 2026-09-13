@@ -1,5 +1,8 @@
 import GameButtonModel from "./GameButtonModel.js";
 
+const GAME_AREA_ID = "game-area";
+const TEXT_DISP_ID = "text-display";
+
 class AppView {
     /**
      * Constructs the User Interface.
@@ -34,6 +37,7 @@ class AppView {
         // px -> em requires font size
         const toEm = (px) => 
             px / 
+            // html and font-size are only used here
             parseFloat(
                 getComputedStyle(document.querySelector("html")
             )["font-size"]
@@ -55,7 +59,7 @@ class AppView {
      * @param {GameButtonModel[]} buttons 
      */
     displayButtons = (buttons) => {
-        const gameArea = this.root.getElementById("game-area");
+        const gameArea = this.root.getElementById(GAME_AREA_ID);
         gameArea.replaceChildren();   // clear children
         this.gButtonViews = []; // clear buttonElements
         buttons.forEach((button) => {
@@ -70,7 +74,7 @@ class AppView {
      * @param {string} msg
      */
     displayMessage = (msg) => {
-        const errDisplay = this.root.getElementById("error-display");
+        const errDisplay = this.root.getElementById(TEXT_DISP_ID);
         errDisplay.textContent = msg;
         setTimeout(() => {
             errDisplay.textContent = "";
@@ -82,7 +86,7 @@ class AppView {
      */
     clearGameArea = () => {
         this.gButtonViews = []
-        this.root.getElementById("game-area").replaceChildren();
+        this.root.getElementById(GAME_AREA_ID).replaceChildren();
     }
 }
 
