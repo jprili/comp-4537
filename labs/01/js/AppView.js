@@ -18,6 +18,15 @@ class AppView {
     }
 
     /**
+     * Obtains the root object of the DOM. 
+     * 
+     * @returns {HTMLDocument} the root of the document
+     */
+    getRoot = () => {
+        return this.root;
+    }
+
+    /**
      * Get the window dimensions in em.
      * @returns {[number, number]} width and height of window in em
      */

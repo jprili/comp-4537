@@ -53,9 +53,11 @@ class AppController {
      * May need refactoring.
      */
     startGame = async () => {
-        const value = this.view.root.getElementById("button-count").value;
+        const root = this.view.getRoot();
+        const value = root.getElementById("button-count").value;
         const err = this.model.createButtons(value);
-        const goButton = this.view.root.getElementById("go");
+        const goButton = root.getElementById("go");
+        this.model.resetGame();
         if (err) {
             this.view.displayMessage(this.msgs.invalidInput);
             goButton.disabled = false;
@@ -74,7 +76,8 @@ class AppController {
     }
 
     handleCompletion = async (isSuccess) => {
-        const goButton = this.view.root.getElementById("go");
+        const root = this.view.getRoot();
+        const goButton = root.getElementById("go");
         if (!isSuccess) {
             // show rest for like two seconds
             this.view.forEachButtonView(b => { 
@@ -106,7 +109,7 @@ class AppController {
     }
 
     setup = () => {
-        const goButton = this.view.root.getElementById("go");
+        const goButton = this.view.getRoot().getElementById("go");
         goButton.onclick = () => this.onClickGo(goButton);
     }
 }
