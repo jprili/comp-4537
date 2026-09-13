@@ -67,7 +67,7 @@ class GameButtonModel {
         buttonElement.style = style;
         buttonElement.appendChild(labelSpan);
         buttonElement.className = GAME_BTN_CNAME;
-        buttonElement.id = GAME_BTN_CNAME.concat();
+        buttonElement.id = GAME_BTN_CNAME.concat("-", this.label);
         return buttonElement;
     }
 }
