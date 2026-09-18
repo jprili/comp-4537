@@ -13,9 +13,24 @@ const loadCoursework = async () => {
 }
 
 const displayCourseWork = async () => {
-    let coursework = await loadCoursework();
-    document.getElementById("main").textContent = 
-        JSON.stringify(coursework);
+    const coursework = await loadCoursework();
+    const header = document.createElement("h1");
+    header.textContent = "James' COMP 4537 Labs";
+
+    const main = document.getElementById("main");
+    main.appendChild(header);
+
+    const list = document.createElement("ol");
+
+    for (let { name, link } of coursework.labs) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = link;
+        a.textContent = name;
+        list.appendChild(li).appendChild(a);
+    }
+
+    main.appendChild(list);
 }
 
 displayCourseWork();

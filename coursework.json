@@ -3,6 +3,10 @@
         { 
             "name": "lab-01",
             "link": "/labs/01"
+        },
+        { 
+            "name": "lab-02",
+            "link": "/labs/02"
         }
     ]
 }

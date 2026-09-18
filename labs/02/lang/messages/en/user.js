@@ -9,7 +9,8 @@ const USER_MSGS = {
     addButtonText: "add",
     removeButtonText: "remove",
     storedAtText: "stored at: ",
-    updatedAtText: "updated at: "
+    updatedAtText: "updated at: ",
+    returnText: "return to lab-02 home"
 }
 
 export default USER_MSGS;

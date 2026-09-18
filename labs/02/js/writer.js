@@ -113,7 +113,12 @@ class Writer {
         const mainDiv = document.getElementById("main");
         const fieldsDiv = document.createElement("div");
         const addButton = document.createElement("button");
+        const backLink = document.createElement("button");
+        const backLinkContent = document.createElement("a");
+        backLink.appendChild(backLinkContent);
 
+        backLinkContent.href = "../02";
+        backLinkContent.textContent = this.msgs.returnText
         fieldsDiv.id = fieldsID;
         addButton.id = addButtonID;
         addButton.textContent = this.msgs.addButtonText;
@@ -122,6 +127,7 @@ class Writer {
         mainDiv.appendChild(this.generateStoredAtText());
         mainDiv.appendChild(fieldsDiv);
         mainDiv.appendChild(addButton);
+        mainDiv.appendChild(backLink);
 
         this.nextID = parseInt(this.dao.get(nextIDKey) || "0");
         this.loadFromStorage();
