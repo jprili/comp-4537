@@ -76,12 +76,19 @@ class Reader {
     setup = () => {
         const mainDiv = document.getElementById("main");
         const fieldsDiv = document.createElement("div");
+        const backLink = document.createElement("button");
+        const backLinkContent = document.createElement("a");
+        backLink.appendChild(backLinkContent);
+
+        backLinkContent.href = "../02";
+        backLinkContent.textContent = this.msgs.returnText
         fieldsDiv.id = fieldsID;
         window.onstorage = () => {
             this.getNextID();
             this.loadFromStorage();
         };
 
+        mainDiv.appendChild(backLink);
         mainDiv.appendChild(this.generateUpdatedAtText());
         mainDiv.appendChild(fieldsDiv);
 
