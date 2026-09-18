@@ -124,10 +124,10 @@ class Writer {
         addButton.textContent = this.msgs.addButtonText;
         addButton.onclick = this.onAddFieldGroup;
 
-        mainDiv.appendChild(backLink);
         mainDiv.appendChild(this.generateStoredAtText());
         mainDiv.appendChild(fieldsDiv);
         mainDiv.appendChild(addButton);
+        mainDiv.appendChild(backLink);
 
         this.nextID = parseInt(this.dao.get(nextIDKey) || "0");
         this.loadFromStorage();

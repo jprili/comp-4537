@@ -88,9 +88,9 @@ class Reader {
             this.loadFromStorage();
         };
 
-        mainDiv.appendChild(backLink);
         mainDiv.appendChild(this.generateUpdatedAtText());
         mainDiv.appendChild(fieldsDiv);
+        mainDiv.appendChild(backLink);
 
         this.getNextID();
         this.loadFromStorage();
