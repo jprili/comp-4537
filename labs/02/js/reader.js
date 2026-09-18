@@ -3,14 +3,48 @@ import CONFIG from "../lang/config.js";
 
 const fieldsID = "fields";
 const nextIDKey = "next-id";
+const dateContainerID = "date-container";
 
 class Reader {
-
-    constructor(dao) {
+    constructor(dao, msgs) {
         /**
          * @type {Storage}
          */
-        this.dao = dao
+        this.dao = dao;
+
+        /**
+         * @type {number}
+         */
+        this.nextID = 0;
+
+        /**
+         * @type {USER_MSGS}
+         */
+        this.msgs = msgs;
+    }
+
+    generateUpdatedAtText = (value = "") => {
+        const container = document.createElement("div");
+        const storedAt = document.createElement("span");
+        storedAt.textContent = this.msgs.updatedAtText;
+        const dateContainer = document.createElement("span");
+        dateContainer.id = dateContainerID;
+        dateContainer.textContent = value;
+        container.appendChild(storedAt);
+        container.appendChild(dateContainer);
+        return container;
+    }
+
+    /**
+     * 
+     * @param {Date | null} date 
+     */
+    updateUpdatedAt = (date = null) => {
+        const dateContainer = document.getElementById(dateContainerID);
+        if (date === null) {
+            date = new Date();
+        } 
+        dateContainer.textContent = date.toTimeString();
     }
 
     addFieldGroup = (modelID, value = "") => {
@@ -26,6 +60,7 @@ class Reader {
 
     loadFromStorage = () => {
         document.getElementById(fieldsID).replaceChildren();
+        this.updateUpdatedAt();
         for (let i = 0; i < this.nextID; i++) {
             const val = this.dao.get(i);
             if (val !== null) {
@@ -34,19 +69,23 @@ class Reader {
         }
     }
 
-    incrementID = () => {
-        ++this.nextID;
-        this.dao.update(nextIDKey, this.nextID);
+    getNextID = () => {
+        this.nextID = parseInt(this.dao.get(nextIDKey) || "0");
     }
 
     setup = () => {
         const mainDiv = document.getElementById("main");
         const fieldsDiv = document.createElement("div");
         fieldsDiv.id = fieldsID;
-        window.onstorage = this.loadFromStorage;
+        window.onstorage = () => {
+            this.getNextID();
+            this.loadFromStorage();
+        };
+
+        mainDiv.appendChild(this.generateUpdatedAtText());
         mainDiv.appendChild(fieldsDiv);
 
-        this.nextID = parseInt(this.dao.get(nextIDKey) || "0");
+        this.getNextID();
         this.loadFromStorage();
     }
 }

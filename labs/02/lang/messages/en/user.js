@@ -8,6 +8,8 @@ const USER_MSGS = {
     linkToIndexText: "to lab 02 home",
     addButtonText: "add",
     removeButtonText: "remove",
+    storedAtText: "stored at: ",
+    updatedAtText: "updated at: "
 }
 
 export default USER_MSGS;
