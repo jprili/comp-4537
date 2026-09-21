@@ -1,5 +1,5 @@
 const USER_MSGS = {
-    labTitle: "Lab 02",
+    labTitle: "Lab 02: JSON, Object Construction, localStorage by James Paolo Rili",
     readerTitle: "Reader",
     writerTitle: "Writer",
 
