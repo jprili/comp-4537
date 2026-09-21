@@ -35,6 +35,7 @@ class HomeView {
     setup = () => {
         const labTitle = document.createElement("h1");
         labTitle.id = labTitleID;
+        document.title = this.msgs.labTitle;
         labTitle.textContent = this.msgs.labTitle;
 
         const list = document.createElement("ul");
