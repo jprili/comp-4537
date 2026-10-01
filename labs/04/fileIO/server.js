@@ -2,7 +2,7 @@ import http from "http";
 import fs from "fs";
 import url from "url";
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const WRITE_TARGET = "file.txt";
 
 const resBadRequest = (res) => {

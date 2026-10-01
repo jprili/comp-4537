@@ -2,7 +2,7 @@ import http from "http";
 import url from "url";
 import { getDate } from "./modules/utils.js";
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const LANG = "en";
 
 http.createServer(async (req, res) => {
