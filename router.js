@@ -10,7 +10,9 @@ export default {
         const url = new URL(req.url);
         for (const [path, target] of Object.entries(backends)) {
             if (url.pathname.startsWith(path)) {
-                return fetch(new URL(url.pathname + url.search, target), req);
+                const newURL = new URL(url.pathname + url.search, target);
+                console.debug(newURL);
+                return fetch(newURL, req);
             }
         }
     }
