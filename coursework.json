@@ -7,6 +7,18 @@
         { 
             "name": "lab-02",
             "link": "/labs/02"
+        },
+        {
+            "name": "lab-04 (getDate)",
+            "link": "/labs/04/getDate?name="
+        },
+        {
+            "name": "lab-04 (readFile)",
+            "link": "/labs/04/readFile/file.txt"
+        },
+        {
+            "name": "lab-04 (writeFile)",
+            "link": "/labs/04/writeFile?text="
         }
     ]
 }
