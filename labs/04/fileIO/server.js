@@ -5,15 +5,28 @@ import url from "url";
 const PORT = process.env.PORT || 3000;
 const WRITE_TARGET = "file.txt";
 
+const setupCORS = (res, origin) => {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+}
+
 const resBadRequest = (res) => {
     res.writeHead(400);
     res.end("Bad request");
 } 
 
 http.createServer(async (req, res) => {
-    let q = url.parse(req.url, true);
+    setupCORS(res, process.env.ORIGIN || process.env.RENDER_EXTERNAL_HOSTNAME);
 
     // GUARD
+    if (req.method === "OPTIONS") {
+        res.writeHead(204); // No Content
+        res.end();
+        return;
+    }
+
+    let q = url.parse(req.url, true);
     if (!q.pathname.match(
         /\/labs\/04\/(write|read)File\/?/
     )) {

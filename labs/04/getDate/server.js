@@ -5,7 +5,21 @@ import { getDate } from "./modules/utils.js";
 const PORT = process.env.PORT || 3000;
 const LANG = "en";
 
+const setupCORS = (res, origin) => {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+}
+
 http.createServer(async (req, res) => {
+    setupCORS(process.env.ORIGIN || process.env.RENDER_EXTERNAL_HOSTNAME)
+
+    if (req.method === "OPTIONS") {
+        res.writeHead(204); // No Content
+        res.end();
+        return;
+    }
+
     let q = url.parse(req.url, true);
     if (!q.pathname.match(/\/labs\/04\/getDate\/?/)) {
         res.writeHead(400);
