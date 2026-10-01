@@ -4,7 +4,8 @@ export default {
     async fetch(req) {
         const backends = {
             "/labs/04/getDate": env.GET_DATE_04,
-            "/labs/04/fileIO":  env.FILE_IO_04,
+            "/labs/04/fileRead":  env.FILE_IO_04,
+            "/labs/04/fileWrite":  env.FILE_IO_04,
         }
 
         const url = new URL(req.url);
@@ -14,5 +15,6 @@ export default {
                 return fetch(newURL, req);
             }
         }
+        return fetch(req);
     }
 }
