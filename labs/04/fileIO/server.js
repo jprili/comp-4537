@@ -42,9 +42,9 @@ http.createServer(async (req, res) => {
         fs.appendFile(WRITE_TARGET, q.query["text"],
             (err) => {
                 if (err) {
-                    console.log(err);
+                    console.log("Writing unsuccessful")
                 }
-                console.log(`Write "${q.query["text"]}" sucessful.`);
+                console.log(`Write "${q.query["text"]}" successful.`);
                 res.writeHead(200, {"Content-Type": "text"});
                 res.end("OK");
             }
@@ -56,12 +56,11 @@ http.createServer(async (req, res) => {
         fs.readFile(WRITE_TARGET,
             (err, data)=> {
                 if (err) {
-                    console.log(err);
                     res.writeHead(404);
                     res.end("Not found");
                     return;
                 }
-                console.log(`Read "${data}" sucessful.`);
+                console.log("Read file successful.");
                 res.writeHead(200, {"Content-Type": "text"});
                 res.end(data);
             }
