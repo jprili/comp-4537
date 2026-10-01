@@ -27,7 +27,10 @@ http.createServer(async (req, res) => {
             return;
         }
         fs.appendFile(WRITE_TARGET, q.query["text"],
-            () => {
+            (err) => {
+                if (err) {
+                    console.log(err);
+                }
                 res.writeHead(200, {"Content-Type": "text"});
                 res.end("OK");
             }
@@ -36,9 +39,15 @@ http.createServer(async (req, res) => {
         q.pathname.match(/\/labs\/04\/readFile\/*/) 
         && q.pathname.endsWith(WRITE_TARGET)
     ) {
-        const data = fs.readFileSync(WRITE_TARGET);
-        res.writeHead(200, {"Content-Type": "text"});
-        res.end(data);
+        const data = fs.readFile(WRITE_TARGET,
+            err => {
+                if (err) {
+                    console.log(err);
+                }
+                res.writeHead(200, {"Content-Type": "text"});
+                res.end(data);
+            }
+        );
     } else {
         res.writeHead(404);
         res.end("Not found");
