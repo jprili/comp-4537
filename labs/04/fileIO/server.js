@@ -46,6 +46,7 @@ http.createServer(async (req, res) => {
                     console.log(err);
                     res.writeHead(404);
                     res.end("Not found");
+                    return;
                 }
                 console.log(`Read "${data}" sucessful.`);
                 res.writeHead(200, {"Content-Type": "text"});
