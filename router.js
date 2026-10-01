@@ -5,6 +5,7 @@ const BACKENDS = {
 
 export default {
     async fetch(req) {
+        console.debug(req);
         const url = new URL(req.url);
         for (const [path, target] of Object.entries(BACKENDS)) {
             if (url.pathname.startsWith(path)) {
