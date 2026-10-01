@@ -7,8 +7,8 @@
         "binding": "ASSETS",
         "run_worker_first": [
             "/labs/04/getDate*", 
-            "/labs/04/fileIO/fileRead*",
-            "/labs/04/fileIO/fileWrite*"
+            "/labs/04/fileRead*",
+            "/labs/04/fileWrite*"
         ]
     },
     "observability": {
