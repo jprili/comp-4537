@@ -8,6 +8,7 @@ export default {
         }
 
         const url = new URL(req.url);
+        console.debug(url);
         for (const [path, target] of Object.entries(backends)) {
             if (url.pathname.startsWith(path)) {
                 const newURL = new URL(url.pathname + url.search, target);
