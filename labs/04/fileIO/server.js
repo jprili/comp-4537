@@ -40,12 +40,12 @@ http.createServer(async (req, res) => {
         q.pathname.match(/\/labs\/04\/readFile\/*/) 
         && q.pathname.endsWith(WRITE_TARGET)
     ) {
-        const data = fs.readFile(WRITE_TARGET,
-            err => {
+        fs.readFile(WRITE_TARGET,
+            (err, data)=> {
                 if (err) {
                     console.log(err);
                 }
-                console.log(`Read "${q.query["text"]}" sucessful.`);
+                console.log(`Read "${data}" sucessful.`);
                 res.writeHead(200, {"Content-Type": "text"});
                 res.end(data);
             }
