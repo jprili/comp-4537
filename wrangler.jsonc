@@ -2,6 +2,14 @@
     "name": "comp-4537",
     "main": "router.js",
     "compatibility_date": "2026-10-01",
+    "assets": {
+        "directory": ".",
+        "binding": "ASSETS",
+        "run_worker_first": [
+            "/labs/04/getDate/*", 
+            "/labs/04/fileIO/*"
+        ]
+    },
     "observability": {
         "logs": {
         "enabled": true,

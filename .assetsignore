@@ -1,0 +1,20 @@
+# Worker source & config
+router.js
+wrangler.jsonc
+wrangler.toml
+.assetsignore
+
+# Node server code (these run on Render, not here)
+labs/04/**/server.js
+labs/04/**/package.json
+labs/04/**/modules/
+labs/04/**/node_modules/
+
+# The append target — it lives on Render, not here
+labs/04/fileIO/file.txt
+
+# Standard exclusions
+.git/
+.gitignore
+node_modules/
+*.md
