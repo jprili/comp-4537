@@ -8,7 +8,7 @@ export default {
         const url = new URL(req.url);
         for (const [path, target] of Object.entries(BACKENDS)) {
             if (url.pathname.startsWith(path)) {
-                return fetch(new URL(url.pathname + url.search, origin), req);
+                return fetch(new URL(url.pathname + url.search, target), req);
             }
         }
         return fetch(req);
