@@ -12,7 +12,7 @@ const setupCORS = (res, origin) => {
 }
 
 http.createServer(async (req, res) => {
-    setupCORS(process.env.ORIGIN || process.env.RENDER_EXTERNAL_HOSTNAME)
+    setupCORS(res, process.env.ORIGIN || process.env.RENDER_EXTERNAL_HOSTNAME)
 
     if (req.method === "OPTIONS") {
         res.writeHead(204); // No Content
