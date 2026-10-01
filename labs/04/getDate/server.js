@@ -7,10 +7,11 @@ const LANG = "en";
 
 http.createServer(async (req, res) => {
     let q = url.parse(req.url, true);
-    res.writeHead(200, {"Content-Type": "text/html"});
     if (!q.pathname.match(/\/labs\/04\/getDate\/?/)) {
+        res.writeHead(400);
         res.end("Bad request");
     } else {
+        res.writeHead(200, {"Content-Type": "text/html"});
         const jsonObj = await import(
             `./lang/${LANG}.json`, {with: {type: "json"}});
         const greeting = jsonObj.default.greeting;
