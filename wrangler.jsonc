@@ -1,4 +1,5 @@
 {
     "name": "comp-4537",
-    "main": "router.js"
+    "main": "router.js",
+    "compatibility-date": "2026-10-01"
 }
