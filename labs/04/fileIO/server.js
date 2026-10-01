@@ -31,6 +31,7 @@ http.createServer(async (req, res) => {
                 if (err) {
                     console.log(err);
                 }
+                console.log(`Write "${q.query["text"]}" sucessful.`);
                 res.writeHead(200, {"Content-Type": "text"});
                 res.end("OK");
             }
@@ -44,6 +45,7 @@ http.createServer(async (req, res) => {
                 if (err) {
                     console.log(err);
                 }
+                console.log(`Read "${q.query["text"]}" sucessful.`);
                 res.writeHead(200, {"Content-Type": "text"});
                 res.end(data);
             }
