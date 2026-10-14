@@ -5,7 +5,25 @@ import url from "url";
 const main = async () => {
     const basePath = /\/05\/api\/((query)\/"(.*)"|(insert)\/?)$/;
     const listener = new Listener(process.env.LISTENER_PORT);
+
+    /* MAIN BUSINESS LOGIC */
     listener.setCallback(async (req, res) => {
+
+        /* SET CORS OPTIONS */
+        res.setHeader(
+            "Access-Control-Allow-Origin", 
+            process.env.ORIGIN || process.env.RENDER_EXTERNAL_HOSTNAME || "*"
+        );
+        res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+        /* PREFLIGHT */
+        if (req.method === "OPTIONS") {
+            res.writeHead(204); // No Content
+            res.end();
+            return;
+        }
+
         let q = url.parse(req.url, true);
         const match = decodeURI(q.pathname).match(basePath);
         if (!match) {
@@ -14,15 +32,19 @@ const main = async () => {
             return;
         }
         
+        /* CONNECT SQL */
         const connection = new SQLConnection(process.env.DATABASE_URL);
         try {
             connection.connect();
         } catch (e) {
             res.writeHeader(500);
-            res.end(`Database Error ${e}`);
+            res.end(JSON.stringify({ 
+                result: null, error: `Database Error ${e}` 
+            }));
             return;
         }
 
+        /* PROCESS REQUESTS */
         let result;
         if (req.method === "GET" && match[2] === "query" && match[3]) {
             const query = match[3];
@@ -36,6 +58,7 @@ const main = async () => {
                 res.end(JSON.stringify({ result: [], error: `Error: ${e}` }));
                 return;
             }
+
         } else if (req.method === "POST" && match[1] === "insert") {
             let rawBody = "";
             req.on("data", (chunk) => {
@@ -54,6 +77,8 @@ const main = async () => {
             });
             result = { result: "Query sent." }
         }
+
+        /* GUARD DISCONNECT */
         connection.disconnect();
         res.writeHeader(200, {"Content-Type": "application/json"});
         res.end(JSON.stringify(result));
