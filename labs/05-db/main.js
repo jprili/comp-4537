@@ -26,6 +26,7 @@ const main = async () => {
         let result;
         if (req.method === "GET" && match[2] === "query" && match[3]) {
             const query = match[3];
+            console.log(`INFO: received query "${query}"`);
             try {
                 result = {
                     result: await connection.unsafeQuery(query)
@@ -41,6 +42,9 @@ const main = async () => {
                 rawBody += chunk;
             });
             req.on("end", () => {
+                console.log(
+                    `INFO: received insert request with body ${rawBody}`
+                );
                 const { name, dateOfBirth } = JSON.parse(rawBody);
                 connection.connect()
                 connection.query`
