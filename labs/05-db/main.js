@@ -31,25 +31,18 @@ const main = async () => {
             res.end("Invalid request");
             return;
         }
-        
-        /* CONNECT SQL */
-        const connection = new SQLConnection(process.env.DATABASE_URL);
-        try {
-            connection.connect();
-        } catch (e) {
-            res.writeHeader(500);
-            res.end(JSON.stringify({ 
-                result: null, error: `Database Error ${e}` 
-            }));
-            return;
-        }
 
         /* PROCESS REQUESTS */
+        let connection;
         let result;
         if (req.method === "GET" && match[2] === "query" && match[3]) {
             const query = atob(match[3]);
             console.log(`INFO: received query "${query}"`);
             try {
+                connection = new SQLConnection(
+                    process.env.DATABASE_URL_READER
+                );
+                connection.connect()
                 result = {
                     result: await connection.unsafeQuery(query)
                 };
@@ -68,17 +61,19 @@ const main = async () => {
                     `INFO: received insert request with body ${rawBody}`
                 );
                 const { name, dateOfBirth } = JSON.parse(rawBody);
+                connection = new SQLConnection(process.env.DATABASE_URL);
                 connection.connect()
                 connection.query`
                     insert into patients(name, dateofbirth) 
                     values (${name}, ${dateOfBirth});
                 `
+
             });
             result = { result: "Query sent." }
         }
 
         /* GUARD DISCONNECT */
-        connection.disconnect();
+        connection.disconnect()
         res.writeHeader(200, {"Content-Type": "application/json"});
         res.end(JSON.stringify(result));
     })

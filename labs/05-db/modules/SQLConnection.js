@@ -20,7 +20,7 @@ class SQLConnection {
     }
 
     unsafeQuery = async (string) => {
-        return await this.connection.unsafe(string); 
+        return await this.connection.unsafe(string, { prepare: true }); 
     }
 }
 
