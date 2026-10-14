@@ -3,7 +3,7 @@ import Listener from "./modules/Listener.js";
 import url from "url";
 
 const main = async () => {
-    const basePath = /\/05\/api\/((query)\/"(.*)"|(insert)\/?)$/;
+    const basePath = /\/05\/api\/((query)\/(.*)|(insert)\/?)$/;
     const listener = new Listener(process.env.LISTENER_PORT);
 
     /* MAIN BUSINESS LOGIC */
@@ -25,7 +25,7 @@ const main = async () => {
         }
 
         let q = url.parse(req.url, true);
-        const match = decodeURI(q.pathname).match(basePath);
+        const match = q.pathname.match(basePath);
         if (!match) {
             res.writeHeader(403);
             res.end("Invalid request");
@@ -47,7 +47,7 @@ const main = async () => {
         /* PROCESS REQUESTS */
         let result;
         if (req.method === "GET" && match[2] === "query" && match[3]) {
-            const query = match[3];
+            const query = atob(match[3]);
             console.log(`INFO: received query "${query}"`);
             try {
                 result = {
@@ -58,7 +58,6 @@ const main = async () => {
                 res.end(JSON.stringify({ result: [], error: `Error: ${e}` }));
                 return;
             }
-
         } else if (req.method === "POST" && match[1] === "insert") {
             let rawBody = "";
             req.on("data", (chunk) => {
