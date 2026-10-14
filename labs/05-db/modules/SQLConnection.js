@@ -16,14 +16,11 @@ class SQLConnection {
     }
 
     query = async (strings, ...params) => {
-        let result;
-        try {
-            result = await this.connection(strings, ...params);
-        } catch (e) {
-            console.error(e);
-            result = [];
-        }
-        return result; 
+        return await this.connection(strings, ...params);
+    }
+
+    unsafeQuery = async (string) => {
+        return await this.connection.unsafe(string); 
     }
 }
 
