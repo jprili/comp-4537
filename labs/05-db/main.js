@@ -63,12 +63,12 @@ const main = async () => {
                 console.log(
                     `INFO: received insert request with body ${rawBody}`
                 );
-                const { name, dateOfBirth } = JSON.parse(rawBody);
+                const { name, dateofbirth } = JSON.parse(rawBody);
                 connection = new SQLConnection(process.env.DATABASE_URL);
                 connection.connect()
                 await connection.query`
                     insert into patients(name, dateofbirth) 
-                    values (${name}, ${dateOfBirth});
+                    values (${name}, ${dateofbirth});
                 `
                 connection.disconnect();
                 result = { result: "Query sent." }
@@ -76,7 +76,6 @@ const main = async () => {
                 res.end(JSON.stringify(result));
             });
         }
-
     })
     listener.buildServer()
     listener.start()
