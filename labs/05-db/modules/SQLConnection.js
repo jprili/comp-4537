@@ -16,6 +16,7 @@ class SQLConnection {
     }
 
     query = async (strings, ...params) => {
+        console.debug(strings, params);
         return await this.connection(strings, ...params);
     }
 
