@@ -47,6 +47,8 @@ const main = async () => {
                     result: await connection.unsafeQuery(query)
                 };
                 connection.disconnect()
+                res.writeHeader(200, {"Content-Type": "application/json"});
+                res.end(JSON.stringify(result));
             } catch (e) {
                 res.writeHeader(500, {"Content-Type": "application/json"});
                 res.end(JSON.stringify({ result: [], error: `Error: ${e}` }));
@@ -70,12 +72,11 @@ const main = async () => {
                 `
                 connection.disconnect();
                 result = { result: "Query sent." }
+                res.writeHeader(200, {"Content-Type": "application/json"});
+                res.end(JSON.stringify(result));
             });
         }
 
-        /* GUARD DISCONNECT */
-        res.writeHeader(200, {"Content-Type": "application/json"});
-        res.end(JSON.stringify(result));
     })
     listener.buildServer()
     listener.start()
