@@ -37,7 +37,7 @@ const main = async () => {
         let result;
         if (req.method === "GET" && match[2] === "query" && match[3]) {
             console.log(`INFO: received query "${match[3]}"`);
-            const query = atob(decodeURI(match[3]));
+            const query = atob(decodeURIComponent(match[3]));
             try {
                 connection = new SQLConnection(
                     process.env.DATABASE_URL_READER
