@@ -57,14 +57,14 @@ const main = async () => {
             req.on("data", (chunk) => {
                 rawBody += chunk;
             });
-            req.on("end", () => {
+            req.on("end", async () => {
                 console.log(
                     `INFO: received insert request with body ${rawBody}`
                 );
                 const { name, dateOfBirth } = JSON.parse(rawBody);
                 connection = new SQLConnection(process.env.DATABASE_URL);
                 connection.connect()
-                connection.query`
+                await connection.query`
                     insert into patients(name, dateofbirth) 
                     values (${name}, ${dateOfBirth});
                 `
