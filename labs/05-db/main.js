@@ -46,6 +46,7 @@ const main = async () => {
                 result = {
                     result: await connection.unsafeQuery(query)
                 };
+                connection.disconnect()
             } catch (e) {
                 res.writeHeader(500, {"Content-Type": "application/json"});
                 res.end(JSON.stringify({ result: [], error: `Error: ${e}` }));
@@ -67,13 +68,12 @@ const main = async () => {
                     insert into patients(name, dateofbirth) 
                     values (${name}, ${dateOfBirth});
                 `
-
+                connection.disconnect();
+                result = { result: "Query sent." }
             });
-            result = { result: "Query sent." }
         }
 
         /* GUARD DISCONNECT */
-        connection.disconnect()
         res.writeHeader(200, {"Content-Type": "application/json"});
         res.end(JSON.stringify(result));
     })
