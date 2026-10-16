@@ -35,31 +35,35 @@ const main = async () => {
         /* PROCESS REQUESTS */
         let connection;
         let result;
-        if (req.method === "GET" && match[2] === "query" && match[3]) {
-            console.log(`INFO: received query "${match[3]}"`);
-            const query = atob(decodeURIComponent(match[3]));
-            try {
-                connection = new SQLConnection(
-                    process.env.DATABASE_URL_READER
-                );
-                connection.connect()
-                result = {
-                    result: await connection.unsafeQuery(query)
-                };
-                connection.disconnect()
-                res.writeHeader(200, {"Content-Type": "application/json"});
-                res.end(JSON.stringify(result));
-            } catch (e) {
-                res.writeHeader(500, {"Content-Type": "application/json"});
-                res.end(JSON.stringify({ result: [], error: `Error: ${e}` }));
-                return;
-            }
-        } else if (req.method === "POST" && match[1] === "insert") {
-            let rawBody = "";
-            req.on("data", (chunk) => {
-                rawBody += chunk;
-            });
-            req.on("end", async () => {
+        let rawBody = "";
+
+        req.on("data", (chunk) => {
+            rawBody += chunk;
+        });
+
+        req.on("end", async () => {
+            if (req.method === "GET" && match[2] === "query" && match[3]) {
+                console.log(`INFO: received query "${match[3]}"`);
+                const query = atob(decodeURIComponent(match[3]));
+                try {
+                    connection = new SQLConnection(
+                        process.env.DATABASE_URL_READER
+                    );
+                    connection.connect()
+                    result = {
+                        result: await connection.unsafeQuery(query)
+                    };
+                    connection.disconnect()
+                    res.writeHeader(200, {"Content-Type": "application/json"});
+                    res.end(JSON.stringify(result));
+                } catch (e) {
+                    res.writeHeader(500, {"Content-Type": "application/json"});
+                    res.end(JSON.stringify(
+                        { result: [], error: `Error: ${e}` }
+                    ));
+                    return;
+                }
+            } else if (req.method === "POST" && match[1] === "insert") {
                 console.log(
                     `INFO: received insert request with body ${rawBody}`
                 );
@@ -71,11 +75,11 @@ const main = async () => {
                     values (${name}, ${dateofbirth});
                 `
                 connection.disconnect();
-                result = { result: "Query sent." }
                 res.writeHeader(200, {"Content-Type": "application/json"});
-                res.end(JSON.stringify(result));
-            });
-        }
+                res.end(JSON.stringify({ result: "Query sent." }));
+            }
+        })
+
     })
     listener.buildServer()
     listener.start()
