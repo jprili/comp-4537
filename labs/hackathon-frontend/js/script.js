@@ -31,17 +31,18 @@ const main = () => {
     })
 
     verifyBtn.addEventListener("click", async () => {
-        const target = "https://prompt-access-control.onrender.com/verify"
-            + `?value=${verifyInput.value.trim()}`
-        console.log(target);
         let resp = await fetch(
             "https://prompt-access-control.onrender.com/verify"
             + `?value=${verifyInput.value.trim()}`
         )
         resp = await resp.json();
-        verifyResult.innerText = resp.result 
+        if (resp.result === "hello") {
+            verifyResult.innerText = "hello";
+        } else {
+            verifyResult.innerText = resp.result 
             ? USER_MSGS.verifySuccessMsg 
             : USER_MSGS.verifyFailMsg;
+        }
     })
 }
 
