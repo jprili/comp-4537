@@ -19,6 +19,10 @@
         {
             "name": "lab-04 (writeFile)",
             "link": "/labs/04/writeFile?text="
+        },
+        {
+            "name": "hackathon",
+            "link": "/labs/hackathon-frontend"
         }
     ]
 }
