@@ -1,0 +1,15 @@
+* {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#main {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    gap: 10px;
+}
+
+#main > * {
+    display: flex;
+    flex-direction: column;
+}
