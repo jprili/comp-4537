@@ -5,6 +5,7 @@ const main = () => {
     const verifyBtn = document.getElementById("verify-btn");
     const promptArea = document.getElementById("prompt-area");
     const responseArea = document.getElementById("response-area");
+    const responseRecv = document.getElementById("response-receive-time");
     const verifyInput = document.getElementById("verify-input");
     const verifyResult = document.getElementById("verify-result");
 
@@ -12,6 +13,7 @@ const main = () => {
     verifyBtn.innerText = USER_MSGS.verifyBtn;
 
     sendBtn.addEventListener("click", async () => {
+        responseRecv.innerText = `prompt sent at ${new Date()}`
         let resp = await fetch(
             "https://prompt-access-control.onrender.com/prompt",
             {
@@ -24,6 +26,7 @@ const main = () => {
                 },
             });
         resp = await resp.json();
+        responseRecv.innerText = `response received at ${new Date()}`
         responseArea.innerText = resp.response;
     })
 
