@@ -12,4 +12,9 @@
 #main > * {
     display: flex;
     flex-direction: column;
+    width: 100%;
+}
+
+#response-area {
+    height: 50vh;
 }
